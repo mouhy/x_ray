@@ -1,0 +1,89 @@
+{
+  "menu": "القائمة",
+  "profile": "الملف الشخصي",
+  "history": "السجل",
+  "settings": "الإعدادات",
+  "logout": "تسجيل الخروج",
+
+  "appTitle": "تشخيص الصدر\n بالذكاء الاصطناعي",
+  "appDescription": "قم برفع صورة أشعة الصدر للحصول على تحليل فوري باستخدام الذكاء الاصطناعي.",
+  "startAnalysis": "ابدا التحليل",
+
+  "howItWorks": "كيف يعمل التطبيق",
+  "step1": "رفع صورة الأشعة",
+  "step2": "تحليل الصورة بالذكاء الاصطناعي",
+  "step3": "الحصول على التشخيص",
+
+  "welcomeBack": "مرحبًا بعودتك",
+  "loginDescription": "أدخل بياناتك للوصول إلى التطبيق.",
+
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "login": "تسجيل الدخول",
+
+  "noAccount": "ليس لديك حساب؟",
+  "createAccount": "إنشاء حساب",
+
+  "emailEmpty": "يجب إدخال البريد الإلكتروني",
+  "passwordEmpty": "يجب إدخال كلمة المرور",
+
+  "required": "مطلوب",
+  "firstName": "الاسم الأول",
+  "lastName": "اسم العائلة",
+  "passwordRequired": "كلمة المرور مطلوبة",
+  "min6": "على الأقل 6 حروف",
+  "confirmPassword": "تأكيد كلمة المرور",
+  "confirmPasswordRequired": "أكد كلمة المرور",
+  "passwordsNotMatch": "كلمتا المرور غير متطابقتين",
+  "register": "تسجيل",
+  "backToLogin": "العودة لتسجيل الدخول",
+
+  "name": "الاسم",
+  "age": "العمر",
+  "gender": "النوع",
+  "maritalStatus": "الحالة الاجتماعية",
+  "saveData": "حفظ البيانات",
+  "male": "ذكر",
+  "female": "أنثى",
+  "single": "أعزب",
+  "married": "متزوج",
+  "widowed": "أرمل",
+
+  "darkMode": "الوضع الليلي",
+
+  "uploadXray": "رفع الأشعة",
+  "gallery": "اختيار من المعرض",
+  "camera": "استخدام الكاميرا",
+  "tapToUpload": "اضغط لرفع صورة الأشعة",
+  "editProfile": "تعديل الملف الشخصي",
+  "enterProfileFirst": "من فضلك أدخل بياناتك أولاً",
+  "analyzeNow": "ابدأ التحليل",
+
+  "analysisResult": "نتيجة التحليل",
+  "patientInfo": "بيانات المريض",
+  "diagnosis": "التشخيص",
+  "pneumoniaDetected": "تم اكتشاف التهاب رئوي",
+  "confidence": "نسبة الثقة",
+  "downloadPdf": "تحميل التقرير PDF",
+
+  "pdfSaved": "تم حفظ الملف بنجاح",
+  "permissionDenied": "تم رفض إذن التخزين",
+  "errorSaving": "خطأ أثناء حفظ الملف",
+
+  "forgotPassword": "هل نسيت كلمة المرور؟",
+  "resetPassword": "إعادة تعيين كلمة المرور",
+  "newPassword": "كلمة المرور الجديدة",
+  "updatePassword": "تحديث كلمة المرور",
+  "passwordUpdated": "تم تحديث كلمة المرور بنجاح",
+
+
+  "verificationCode": "كود التحقق",
+  "enterCode": "ادخل الكود",
+  "verify": "تأكيد",
+  "sendCode": "إرسال الكود",
+  "enterValidEmail": "ادخل بريد إلكتروني صحيح",
+  "passwordMin": "كلمة المرور لازم تكون 6 حروف على الأقل",
+  "confirmPasswordText": "أكد كلمة المرور",
+
+  "uploadImageFirst":"يرجى تحميل الصورة أولاً"
+}
