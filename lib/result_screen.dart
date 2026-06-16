@@ -7,7 +7,9 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:permission_handler/permission_handler.dart';
 import 'l10n/app_localizations.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:printing/printing.dart';
 import 'l10n/app_localizations.dart';
+import 'services/api_service.dart';
 
 //import 'dart:typed_data';
 
@@ -20,6 +22,7 @@ class ResultScreen extends StatelessWidget {
   final String email;
   final String diagnosis;
   final double confidence;
+  final String? reportId;
 
 
 
@@ -34,6 +37,7 @@ class ResultScreen extends StatelessWidget {
     required this.email,
     required this.diagnosis,
     required this.confidence,
+    this.reportId,
 
 
   });
@@ -270,7 +274,7 @@ class ResultScreen extends StatelessWidget {
         ),
       ),
 
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -363,10 +367,119 @@ class ResultScreen extends StatelessWidget {
                 style: TextStyle(color: Colors.white),
               ),
             ),
+
+            // Server report (images + PDF) — only when we have a report id
+            if (reportId != null) ...[
+              const SizedBox(height: 30),
+              const Text(
+                "X-Ray Images",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 12),
+              FutureBuilder<Map<String, String>>(
+                future: ApiService.imageHeaders(),
+                builder: (context, snap) {
+                  if (!snap.hasData) {
+                    return const SizedBox(
+                      height: 120,
+                      child: Center(
+                        child: CircularProgressIndicator(color: Colors.white),
+                      ),
+                    );
+                  }
+                  final headers = snap.data!;
+                  return Column(
+                    children: [
+                      _imageBlock(
+                        "Original",
+                        ApiService.reportImageUrl(reportId!, heatmap: false),
+                        headers,
+                      ),
+                      const SizedBox(height: 16),
+                      _imageBlock(
+                        "AI Heatmap",
+                        ApiService.reportImageUrl(reportId!, heatmap: true),
+                        headers,
+                      ),
+                    ],
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xff10B981),
+                ),
+                onPressed: () => _downloadServerPdf(context),
+                icon: const Icon(Icons.cloud_download),
+                label: const Text(
+                  "Download Server PDF",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
           ],
         ),
       ),
     );
+  }
+
+  // Image block
+  Widget _imageBlock(String label, String url, Map<String, String> headers) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: const TextStyle(color: Colors.white70)),
+        const SizedBox(height: 6),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Image.network(
+            url,
+            headers: headers,
+            height: 220,
+            width: double.infinity,
+            fit: BoxFit.contain,
+            loadingBuilder: (context, child, progress) => progress == null
+                ? child
+                : const SizedBox(
+                    height: 220,
+                    child: Center(
+                      child: CircularProgressIndicator(color: Colors.white),
+                    ),
+                  ),
+            errorBuilder: (context, error, stack) => const SizedBox(
+              height: 80,
+              child: Center(
+                child: Text(
+                  "Image not available",
+                  style: TextStyle(color: Colors.white38),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  // Download server PDF
+  Future<void> _downloadServerPdf(BuildContext context) async {
+    try {
+      final bytes = await ApiService.downloadReportPdf(reportId!);
+      await Printing.sharePdf(bytes: bytes, filename: 'report_$reportId.pdf');
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString().replaceFirst('Exception: ', '')),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 }
 // class ResultScreen extends StatelessWidget {

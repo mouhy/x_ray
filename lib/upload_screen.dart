@@ -270,6 +270,8 @@ class _UploadScreenState extends State<UploadScreen> {
                     final double confidence =
                         rawConf <= 1 ? rawConf * 100 : rawConf;
 
+                    final String? reportId = result["id"]?.toString();
+
                     HistoryManager.history
                         .add("Analyzed Image - ${DateTime.now()}");
 
@@ -285,6 +287,7 @@ class _UploadScreenState extends State<UploadScreen> {
                           email: widget.email,
                           diagnosis: diagnosis,
                           confidence: confidence,
+                          reportId: reportId,
                         ),
                       ),
                     );

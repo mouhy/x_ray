@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'l10n/app_localizations.dart';
 import 'services/api_service.dart';
+import 'result_screen.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -17,6 +18,52 @@ class _HistoryScreenState extends State<HistoryScreen> {
   void initState() {
     super.initState();
     _reportsFuture = ApiService.getReports();
+  }
+
+  // Open report
+  Future<void> _openReport(BuildContext context, Map<String, dynamic> r) async {
+    final id = r["id"]?.toString();
+    if (id == null) return;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) =>
+          const Center(child: CircularProgressIndicator(color: Colors.white)),
+    );
+
+    try {
+      final report = await ApiService.getReportById(id);
+      if (!context.mounted) return;
+      Navigator.pop(context); // close loader
+
+      final disease =
+          report["primaryDisease"]?.toString() ?? "No disease detected";
+      final rawConf = (report["overallConfidence"] as num?)?.toDouble() ?? 0;
+      final conf = rawConf <= 1 ? rawConf * 100 : rawConf;
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => ResultScreen(
+            name: "",
+            age: "",
+            gender: "",
+            maritalStatus: "",
+            email: "",
+            diagnosis: disease,
+            confidence: conf,
+            reportId: id,
+          ),
+        ),
+      );
+    } catch (e) {
+      if (!context.mounted) return;
+      Navigator.pop(context); // close loader
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString().replaceFirst('Exception: ', ''))),
+      );
+    }
   }
 
   @override
@@ -83,6 +130,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 margin:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 child: ListTile(
+                  onTap: () => _openReport(context, r),
                   leading: Icon(
                     status == "Healthy" ? Icons.check_circle : Icons.warning,
                     color: status == "Healthy" ? Colors.green : Colors.orange,

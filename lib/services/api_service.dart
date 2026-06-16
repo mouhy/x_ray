@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -141,6 +142,65 @@ class ApiService {
       throw Exception("انتهت الجلسة، سجّل دخول من جديد");
     } else {
       throw Exception("فشل تحميل السجل");
+    }
+  }
+
+  // Report by id
+  static Future<Map<String, dynamic>> getReportById(String id) async {
+    final token = await getToken();
+    final url = Uri.parse("$baseUrl/reports/$id");
+
+    final response = await http.get(
+      url,
+      headers: {
+        "Authorization": "Bearer $token",
+        "ngrok-skip-browser-warning": "true",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    } else if (response.statusCode == 401) {
+      throw Exception("انتهت الجلسة، سجّل دخول من جديد");
+    } else {
+      throw Exception("فشل تحميل التقرير");
+    }
+  }
+
+  // Image URL
+  static String reportImageUrl(String id, {required bool heatmap}) {
+    final kind = heatmap ? "heatmap-image" : "original-image";
+    return "$baseUrl/reports/$id/$kind";
+  }
+
+  // Image headers
+  static Future<Map<String, String>> imageHeaders() async {
+    final token = await getToken();
+    return {
+      "Authorization": "Bearer $token",
+      "ngrok-skip-browser-warning": "true",
+    };
+  }
+
+  // Download PDF
+  static Future<Uint8List> downloadReportPdf(String id) async {
+    final token = await getToken();
+    final url = Uri.parse("$baseUrl/reports/$id/pdf");
+
+    final response = await http.get(
+      url,
+      headers: {
+        "Authorization": "Bearer $token",
+        "ngrok-skip-browser-warning": "true",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return response.bodyBytes;
+    } else if (response.statusCode == 401) {
+      throw Exception("انتهت الجلسة، سجّل دخول من جديد");
+    } else {
+      throw Exception("فشل تحميل ملف PDF");
     }
   }
 }
