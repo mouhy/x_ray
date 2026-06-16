@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'result_screen.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'history_manager.dart';
 import 'profile_screen.dart';
 import 'l10n/app_localizations.dart';
@@ -29,6 +30,25 @@ class _UploadScreenState extends State<UploadScreen> {
 
   File? selectedImage;
   final ImagePicker picker = ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfile();
+  }
+
+  // Load profile
+  Future<void> _loadProfile() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
+    final e = widget.email;
+    setState(() {
+      name = prefs.getString("profile_name_$e") ?? "";
+      age = prefs.getInt("profile_age_$e")?.toString() ?? "";
+      gender = prefs.getString("profile_gender_$e") ?? "";
+      maritalStatus = prefs.getString("profile_marital_$e") ?? "";
+    });
+  }
 
   Future<void> pickImage(ImageSource source) async {
     final XFile? image = await picker.pickImage(source: source);
@@ -244,10 +264,11 @@ class _UploadScreenState extends State<UploadScreen> {
                         result["primaryDisease"]?.toString() ??
                             "No disease detected";
 
-                    // To percent
+                    // To percent (handle 0-1 or 0-100 scale)
+                    final double rawConf =
+                        (result["overallConfidence"] as num?)?.toDouble() ?? 0;
                     final double confidence =
-                        ((result["overallConfidence"] as num?)?.toDouble() ?? 0) *
-                            100;
+                        rawConf <= 1 ? rawConf * 100 : rawConf;
 
                     HistoryManager.history
                         .add("Analyzed Image - ${DateTime.now()}");

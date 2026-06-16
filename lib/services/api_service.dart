@@ -4,9 +4,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Central API client
 class ApiService {
-  // Server URL
-  // Emulator: 10.0.2.2 — real device: PC IP (e.g. 192.168.1.7)
-  static const String baseUrl = "http://10.0.2.2:5098/api";
+  // Server URL (ngrok tunnel to the team backend).
+  // NOTE: a free ngrok URL changes every restart — update this line when it changes.
+  static const String baseUrl =
+      "https://pouncing-arise-cussed.ngrok-free.dev/api";
 
   // Save token
   static Future<void> _saveToken(String token) async {
@@ -35,7 +36,10 @@ class ApiService {
     // Send request
     final response = await http.post(
       url,
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",
+      },
       body: jsonEncode({"email": email, "password": password}),
     );
 
@@ -46,8 +50,10 @@ class ApiService {
       // Store token
       await _saveToken(data["token"]);
       return data;
-    } else {
+    } else if (response.statusCode == 401) {
       throw Exception("الإيميل أو الباسورد غير صحيح");
+    } else {
+      throw Exception("خطأ من السيرفر (${response.statusCode})");
     }
   }
 
@@ -58,7 +64,10 @@ class ApiService {
 
     final response = await http.post(
       url,
-      headers: {"Content-Type": "application/json"},
+      headers: {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",
+      },
       body: jsonEncode({
         "email": email,
         "password": password,
@@ -94,6 +103,7 @@ class ApiService {
     final request = http.MultipartRequest("POST", url);
     // Auth header
     request.headers["Authorization"] = "Bearer $token";
+    request.headers["ngrok-skip-browser-warning"] = "true";
     // Field "image"
     request.files.add(await http.MultipartFile.fromPath("image", imagePath));
 
@@ -117,7 +127,10 @@ class ApiService {
 
     final response = await http.get(
       url,
-      headers: {"Authorization": "Bearer $token"},
+      headers: {
+        "Authorization": "Bearer $token",
+        "ngrok-skip-browser-warning": "true",
+      },
     );
 
     if (response.statusCode == 200) {

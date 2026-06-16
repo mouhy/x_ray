@@ -72,9 +72,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
               final disease = r["primaryDisease"]?.toString() ?? "—";
               final status = r["status"]?.toString() ?? "";
-              // To percent
-              final confidence =
-                  ((r["overallConfidence"] as num?)?.toDouble() ?? 0) * 100;
+              // To percent (handle 0-1 or 0-100 scale)
+              final rawConf = (r["overallConfidence"] as num?)?.toDouble() ?? 0;
+              final confidence = rawConf <= 1 ? rawConf * 100 : rawConf;
               // Trim date
               final date = r["createdAt"]?.toString().split('T').first ?? "";
 
