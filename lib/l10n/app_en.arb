@@ -1,0 +1,101 @@
+{
+  "menu": "Menu",
+  "profile": "Profile",
+  "history": "History",
+  "settings": "Settings",
+  "logout": "Log out",
+
+  "appTitle": "AI-Powered\nChest Diagnosis",
+  "appDescription": "Upload chest X-ray images and receive instant AI analysis.",
+  "startAnalysis": "Start Analysis",
+
+  "howItWorks": "How It Works",
+  "step1": "Upload X-ray Image",
+  "step2": "AI Analyzes the Image",
+  "step3": "Get Instant Diagnosis",
+
+  "welcomeBack": "Welcome Back",
+  "loginDescription": "Enter your credentials to access the workspace.",
+
+  "email": "Email Address",
+  "password": "Password",
+  "login": "Log In",
+
+  "noAccount": "Don't have an account?",
+  "createAccount": "Create account",
+
+  "emailEmpty": "Email must not be empty",
+  "passwordEmpty": "Password must not be empty",
+
+  "required": "Required",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "passwordRequired": "Password required",
+  "min6": "Minimum 6 characters",
+  "confirmPassword": "Confirm Password",
+  "confirmPasswordRequired": "Confirm your password",
+  "passwordsNotMatch": "Passwords do not match",
+  "register": "Register",
+  "backToLogin": "Back to Login",
+
+  "name": "Name",
+  "age": "Age",
+  "gender": "Gender",
+  "maritalStatus": "Marital Status",
+  "saveData": "Save Data",
+  "male": "Male",
+  "female": "Female",
+  "single": "Single",
+  "married": "Married",
+  "widowed": "Widowed",
+
+  "darkMode": "Dark Mode",
+
+  "uploadXray": "Upload X-Ray",
+  "gallery": "Choose from Gallery",
+  "camera": "Use Camera",
+  "tapToUpload": "Tap to upload X-Ray Image",
+  "editProfile": "Edit Profile",
+  "enterProfileFirst": "Please enter profile data first",
+  "analyzeNow": "Analysis Now",
+
+  "analysisResult": "Analysis Result",
+  "patientInfo": "Patient Information",
+  "diagnosis": "Diagnosis",
+  "pneumoniaDetected": "Pneumonia Detected",
+  "confidence": "Confidence",
+  "downloadPdf": "Download PDF Report",
+
+  "pdfSaved": "PDF saved successfully!",
+  "permissionDenied": "Storage permission denied",
+  "errorSaving": "Error saving PDF",
+
+  "forgotPassword": "Forgot Password?",
+  "resetPassword": "Reset Password",
+  "newPassword": "New Password",
+  "updatePassword": "Update Password",
+  "passwordUpdated": "Password Updated Successfully",
+
+
+  "verificationCode": "Verification Code",
+  "enterCode": "Enter Code",
+  "verify": "Verify",
+  "sendCode": "Send Code",
+  "enterValidEmail": "Enter valid email",
+  "passwordMin": "Password must be at least 6 characters",
+  "confirmPasswordText": "Confirm your password",
+
+  "uploadImageFirst": "Please upload image first",
+
+  "invalidEmailOrPassword": "Email or password is incorrect",
+  "serverError": "Server error",
+  "registerFailed": "Failed to create account",
+  "sessionExpired": "Session expired, please login again",
+  "analysisFailed": "Image analysis failed",
+  "fetchReportsFailed": "Failed to load history",
+  "downloadPdfFailed": "Failed to download PDF report",
+  "fileProcessingError": "An error occurred while processing the file",
+  "registerSuccess": "Account created successfully, please login",
+  "downloadingReport": "Downloading report from server..."
+
+}
